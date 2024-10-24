@@ -15,7 +15,7 @@ cols = ['Educación',
        'Fonpet Asignaciones Especiales', 'Primera Infancia', 'Total']
 df = pd.read_csv('datasets/datos_detalle.csv')
 years = df['Año'].unique()
-gdf = gpd.read_file('MGN_ADM_MPIO_GRAFICO.shp')
+gdf = gpd.read_file('bucket-ofiscal.s3.us-east-1.amazonaws.com/MGN_ADM_MPIO_GRAFICO.shp')
 year = st.select_slider("Seleccione un año: ", years)
 
 filtro = df[df['Año'] == year]
