@@ -15,7 +15,7 @@ cols = ['Educación',
        'Fonpet Asignaciones Especiales', 'Primera Infancia', 'Total']
 
 cols_pc = [f"{i}_pc" for i in cols]
-cols_pc = [f"{i}_pop" for i in cols_pc]
+cols_pc_pop = [f"{i}_pop" for i in cols_pc]
 
 df = pd.read_csv('datasets/datos_detalle3.csv')
 df['CodigoDANEEntidad'] = [f"0{i}" if len(str(i)) == 4 else str(i) for i in df['CodigoDANEEntidad']]
