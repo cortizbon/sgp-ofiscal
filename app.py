@@ -18,6 +18,7 @@ cols_pc = [f"{i}_pc" for i in cols]
 cols_pc = [f"{i}_pop" for i in cols_pc]
 
 df = pd.read_csv('datasets/datos_detalle3.csv')
+df['CodigoDANEEntidad'] = [f"0{i}" if len(str(i)) == 4 else str(i) for i in df['CodigoDANEEntidad']]
 years = df['Año'].unique()
 gdf = gpd.read_file('https://bucket-ofiscal.s3.us-east-1.amazonaws.com/MGN_ADM_MPIO_GRAFICO.shp')
 year = st.select_slider("Seleccione un año: ", years)
