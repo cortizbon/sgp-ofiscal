@@ -125,7 +125,7 @@ with tab2:
         x=1), title='Histórico general <br><sup>Cifras en miles de millones de pesos</sup>', yaxis_tickformat='.0f')
 
 
-    st.plotly_chart(fig, key=1)
+    st.plotly_chart(fig, key=3)
 
     # CAGR territorial vs. CAGR nacional
 
