@@ -170,13 +170,13 @@ with tab3:
              cmap='viridis', 
              legend=True, legend_kwds={"label": col, 
                                        "orientation": "horizontal",
-                                       "pad":0.01})
+                                       "pad":0.001})
     fil.plot(column='%',
               ax=axes[1], 
               cmap='viridis', 
               legend=True, legend_kwds={"label": "%", 
                                         "orientation": "horizontal",
-                                        "pad": 0.01})
+                                        "pad": 0.001})
     axes[0].set_axis_off()
     axes[1].set_axis_off()
     st.pyplot(fig)
