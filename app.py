@@ -17,7 +17,7 @@ def load_parquet_data(file_path):
     data = gpd.read_parquet(file_path)
     return data
 
-st.title("Datos")
+st.title("Sistema General de Participaciones")
 
 cols = ['Educación',
        'Prestación Servicios', 'Calidad', 'Calidad (Gratuidad)',
