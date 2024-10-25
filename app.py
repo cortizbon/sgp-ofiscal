@@ -4,6 +4,8 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import requests
+from io import BytesIO
 
 DIC_COLORES = {'verde':["#009966"],
                'ro_am_na':["#FFE9C5", "#F7B261","#D8841C", "#dd722a","#C24C31", "#BC3B26"],
@@ -15,6 +17,11 @@ st.set_page_config(layout='wide')
 @st.cache_data
 def load_parquet_data(file_path):
     data = gpd.read_parquet(file_path)
+    return data
+
+@st.cache_data
+def load_csv_data(file_path):
+    data = pd.read_csv(file_path)
     return data
 
 st.title("Sistema General de Participaciones")
@@ -30,13 +37,13 @@ cols = ['Educación',
 cols_pc = [f"{i}_pc" for i in cols]
 cols_pc_pop = [f"{i}_pop" for i in cols_pc]
 
-df = pd.read_csv('datasets/datos_detalle3.csv')
+df = load_csv_data('https://bucket-ofiscal.s3.us-east-1.amazonaws.com/datos_detalle3.csv')
 df['CodigoDANEEntidad'] = [f"0{i}" if len(str(i)) == 4 else str(i) for i in df['CodigoDANEEntidad']]
 
 tab1, tab2, tab3 = st.tabs(['General', 'Territorial', 'Mapa'])
 
 with tab1:
-    gen = pd.read_csv('datasets\\detalle2.csv')
+    gen = load_csv_data('https://bucket-ofiscal.s3.us-east-1.amazonaws.com/detalle2.csv')
     gen['Valor_24'] /= 1_000_000_000
     piv = gen.groupby('Año')['Valor_24'].sum().reset_index()
 
@@ -125,8 +132,18 @@ with tab2:
 
 
 with tab3: 
+
+    url = "https://bucket-ofiscal.s3.us-east-1.amazonaws.com/muns.parquet"
+
+    # Download the parquet file from the URL
+    response = requests.get(url)
+    response.raise_for_status()  # Check if the download was successful
+
+    # Load the file into a pandas DataFrame
+    file_data = BytesIO(response.content)
+
     years = df['Año'].unique()
-    gdf = load_parquet_data('datasets\\muns.parquet')
+    gdf = load_parquet_data(file_data)
     year = st.select_slider("Seleccione un año: ", years)
 
     filtro = df[df['Año'] == year]
