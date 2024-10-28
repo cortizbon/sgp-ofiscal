@@ -151,6 +151,8 @@ with tab3:
 
     filtro = filtro[filtro['NombreDepartamento'] == depto]
 
+    cols_pc_pop.remove('Total_pc_pop')
+
     
 
     col = st.selectbox("Seleccione una variable", cols_pc_pop)
@@ -163,20 +165,22 @@ with tab3:
     
     fil = gpd.GeoDataFrame(merge[['NombreEntidad', col, '%', 'geometry']])
 
+
+
     fig, axes = plt.subplots(1, 2, figsize=(6,6))
 
     fil.plot(column=col, 
-             ax=axes[0], 
-             cmap='viridis', 
-             legend=True, legend_kwds={"label": col, 
-                                       "orientation": "horizontal",
-                                       "pad":0.001})
-    fil.plot(column='%',
-              ax=axes[1], 
-              cmap='viridis', 
-              legend=True, legend_kwds={"label": "%", 
+                ax=axes[0], 
+                cmap='viridis', 
+                legend=True, legend_kwds={"label": col, 
                                         "orientation": "horizontal",
-                                        "pad": 0.001})
+                                        "pad":0.001})
+    fil.plot(column='%',
+                ax=axes[1], 
+                cmap='viridis', 
+                legend=True, legend_kwds={"label": "%", 
+                                            "orientation": "horizontal",
+                                            "pad": 0.001})
     axes[0].set_axis_off()
     axes[1].set_axis_off()
     st.pyplot(fig)
