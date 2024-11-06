@@ -37,13 +37,13 @@ cols = ['Educación',
 cols_pc = [f"{i}_pc" for i in cols]
 cols_pc_pop = [f"{i}_pop" for i in cols_pc]
 
-df = load_csv_data('https://bucket-ofiscal.s3.us-east-1.amazonaws.com/datos_detalle4.csv')
+df = load_csv_data('datos_detalle4.csv')
 df['CodigoDANEEntidad'] = [f"0{i}" if len(str(i)) == 4 else str(i) for i in df['CodigoDANEEntidad']]
 
 tab1, tab2, tab3 = st.tabs(['General', 'Territorial', 'Mapa'])
 
 with tab1:
-    gen = load_csv_data('https://bucket-ofiscal.s3.us-east-1.amazonaws.com/detalle3.csv')
+    gen = load_csv_data('detalle3.csv')
     gen['Valor_24'] /= 1_000_000_000
     piv = gen.groupby('Año')['Valor_24'].sum().reset_index()
 
@@ -133,7 +133,7 @@ with tab2:
 
 with tab3: 
 
-    url = "https://bucket-ofiscal.s3.us-east-1.amazonaws.com/muns.parquet"
+    url = "datasets/muns.parquet"
 
     # Download the parquet file from the URL
     response = requests.get(url)
