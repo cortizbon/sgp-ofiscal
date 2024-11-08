@@ -7,6 +7,7 @@ import plotly.graph_objects as go
 import requests
 from io import BytesIO
 
+
 DIC_COLORES = {'verde':["#009966"],
                'ro_am_na':["#FFE9C5", "#F7B261","#D8841C", "#dd722a","#C24C31", "#BC3B26"],
                'az_verd': ["#CBECEF", "#81D3CD", "#0FB7B3", "#009999"],
@@ -83,7 +84,7 @@ with tab1:
     st.plotly_chart(fig, key=1)
 
 with tab2:
-    deptos = gen['NombreDepartamento'].unique()
+    deptos = gen['NombreDepartamento'].unique().tolist()
     depto = st.selectbox("Seleccione un departamento", deptos)
     fil = gen[gen['NombreDepartamento'] == depto]
     entidades = fil['NombreEntidad'].unique()
@@ -136,20 +137,21 @@ with tab3:
     url = "datasets/muns.parquet"
 
     # Download the parquet file from the URL
-    response = requests.get(url)
-    response.raise_for_status()  # Check if the download was successful
+    #response = requests.get(url)
+    #response.raise_for_status()  # Check if the download was successful
 
     # Load the file into a pandas DataFrame
-    file_data = BytesIO(response.content)
+    #file_data = BytesIO(response.content)
 
     years = df['Año'].unique()
-    gdf = load_parquet_data(file_data)
+    gdf = load_parquet_data(url)
     year = st.select_slider("Seleccione un año: ", years)
 
     filtro = df[df['Año'] == year]
-    depto = st.selectbox("Seleccione un departamento: ", deptos)
+    depto = st.selectbox("Seleccione un departamento: ", ['Todos'] + deptos)
 
-    filtro = filtro[filtro['NombreDepartamento'] == depto]
+    if depto != 'Todos':
+        filtro = filtro[filtro['NombreDepartamento'] == depto]
 
     cols_pc_pop.remove('Total_pc_pop')
 
@@ -184,6 +186,3 @@ with tab3:
     axes[0].set_axis_off()
     axes[1].set_axis_off()
     st.pyplot(fig)
-
-    # Filtrar por departamento
-    # Las variables expresarlas en términos percápita pero también en términos de porcentaje
